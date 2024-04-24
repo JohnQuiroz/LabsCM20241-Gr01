@@ -58,7 +58,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.jetsnack.R
+import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.model.CollectionType
 import co.edu.udea.compumovil.gr01_20241.lab2.model.Snack
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackCollection

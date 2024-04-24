@@ -16,6 +16,7 @@
 
 package co.edu.udea.compumovil.gr01_20241.lab2.ui.home
 
+import android.content.Context
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -42,8 +43,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import co.edu.udea.compumovil.gr01_20241.lab2.model.Filter
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackCollection
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackRepo
@@ -52,7 +55,10 @@ import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.JetsnackDivider
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.JetsnackScaffold
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.JetsnackSurface
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.SnackCollection
+import co.edu.udea.compumovil.gr01_20241.lab2.ui.snackdetail.SnackDetailViewModel
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.theme.JetsnackTheme
+import co.edu.udea.compumovil.gr01_20241.lab2.ui.worker.InfoWorker
+import co.edu.udea.compumovil.gr01_20241.lab2.ui.worker.WorkManagerJetsnackRepository
 
 @Composable
 fun Feed(
@@ -86,11 +92,18 @@ private fun Feed(
     snackCollections: List<SnackCollection>,
     filters: List<Filter>,
     onSnackClick: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    context: Context = LocalContext.current,
+    snackDetailViewModel: SnackDetailViewModel = viewModel()
 ) {
     JetsnackSurface(modifier = modifier.fillMaxSize()) {
         Box {
-            SnackCollectionList(snackCollections, filters, onSnackClick)
+            SnackCollectionList(snackCollections, filters, {
+                val workManager = WorkManagerJetsnackRepository(context)
+                InfoWorker.setViewModel(snackDetailViewModel)
+                onSnackClick(it)
+                workManager.getInfo()
+            })
             DestinationBar()
         }
     }

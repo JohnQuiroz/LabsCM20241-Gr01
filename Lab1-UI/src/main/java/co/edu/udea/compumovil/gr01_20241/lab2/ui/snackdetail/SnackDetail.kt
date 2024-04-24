@@ -63,7 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import com.example.jetsnack.R
+import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.model.Snack
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackCollection
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackRepo

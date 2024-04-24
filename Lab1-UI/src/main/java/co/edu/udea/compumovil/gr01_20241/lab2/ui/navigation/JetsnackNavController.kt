@@ -20,11 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import co.edu.udea.compumovil.gr01_20241.lab2.ui.snackdetail.SnackDetailViewModel
 
 /**
  * Destinations used in the [JetsnackApp].
@@ -50,7 +52,7 @@ fun rememberJetsnackNavController(
  */
 @Stable
 class JetsnackNavController(
-    val navController: NavHostController,
+    val navController: NavHostController
 ) {
 
     // ----------------------------------------------------------

@@ -54,7 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.jetsnack.R
+import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.model.Filter
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackRepo
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.FilterChip

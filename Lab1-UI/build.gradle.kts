@@ -22,7 +22,7 @@ plugins {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
-    namespace = "com.example.jetsnack"
+    namespace = "co.edu.udea.compumovil.gr01_20241.lab2"
 
     defaultConfig {
         applicationId = "co.edu.udea.compumovil.gr01_20241.lab2"
@@ -87,6 +87,11 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.converter.scalars)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)

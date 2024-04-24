@@ -72,7 +72,7 @@ import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.jetsnack.R
+import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.model.OrderLine
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackCollection
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackRepo

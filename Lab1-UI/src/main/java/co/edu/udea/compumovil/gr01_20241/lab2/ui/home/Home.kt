@@ -68,7 +68,7 @@ import androidx.core.os.ConfigurationCompat
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.jetsnack.R
+import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.JetsnackSurface
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.home.cart.Cart
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.home.search.Search

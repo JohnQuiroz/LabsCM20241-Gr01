@@ -46,9 +46,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.model.Filter
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.theme.JetsnackTheme
-import com.example.jetsnack.R
 
 @Composable
 fun FilterBar(

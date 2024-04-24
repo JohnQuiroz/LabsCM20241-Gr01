@@ -18,10 +18,10 @@ package co.edu.udea.compumovil.gr01_20241.lab2.ui.home.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.model.OrderLine
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackRepo
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackbarManager
-import com.example.jetsnack.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
