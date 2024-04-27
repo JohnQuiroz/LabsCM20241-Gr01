@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "712667527475",
+    "project_id": "labs-9560a",
+    "storage_bucket": "labs-9560a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712667527475:android:d20913747866af92fd6646",
+        "android_client_info": {
+          "package_name": "co.edu.udea.compumovil.gr01_20241.lab2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFJ_FYzyLTdsnqj4eu3CDj9zSmfKFVAkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
