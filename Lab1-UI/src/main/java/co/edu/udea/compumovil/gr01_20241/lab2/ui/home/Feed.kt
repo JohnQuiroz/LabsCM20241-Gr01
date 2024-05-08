@@ -64,7 +64,8 @@ import co.edu.udea.compumovil.gr01_20241.lab2.ui.worker.WorkManagerJetsnackRepos
 fun Feed(
     onSnackClick: (Long) -> Unit,
     onNavigateToRoute: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    snackDetailViewModel: SnackDetailViewModel
 ) {
     val snackCollections = remember { SnackRepo.getSnacks() }
     val filters = remember { SnackRepo.getFilters() }
@@ -82,7 +83,8 @@ fun Feed(
             snackCollections,
             filters,
             onSnackClick,
-            Modifier.padding(paddingValues)
+            Modifier.padding(paddingValues),
+            snackDetailViewModel
         )
     }
 }
@@ -93,16 +95,16 @@ private fun Feed(
     filters: List<Filter>,
     onSnackClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    context: Context = LocalContext.current,
-    snackDetailViewModel: SnackDetailViewModel = viewModel()
+    snackDetailViewModel: SnackDetailViewModel,
+    context: Context = LocalContext.current
 ) {
     JetsnackSurface(modifier = modifier.fillMaxSize()) {
         Box {
             SnackCollectionList(snackCollections, filters, {
                 val workManager = WorkManagerJetsnackRepository(context)
                 InfoWorker.setViewModel(snackDetailViewModel)
-                onSnackClick(it)
                 workManager.getInfo()
+                onSnackClick(it)
             })
             DestinationBar()
         }
@@ -154,7 +156,7 @@ private fun SnackCollectionList(
     }
 }
 
-@Preview("default")
+/*@Preview("default")
 @Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview("large font", fontScale = 2f)
 @Composable
@@ -162,4 +164,4 @@ fun HomePreview() {
     JetsnackTheme {
         Feed(onSnackClick = { }, onNavigateToRoute = { })
     }
-}
+}*/

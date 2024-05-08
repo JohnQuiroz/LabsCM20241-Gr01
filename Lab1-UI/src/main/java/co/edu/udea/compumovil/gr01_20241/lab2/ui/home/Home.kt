@@ -72,16 +72,18 @@ import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.JetsnackSurface
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.home.cart.Cart
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.home.search.Search
+import co.edu.udea.compumovil.gr01_20241.lab2.ui.snackdetail.SnackDetailViewModel
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.theme.JetsnackTheme
 import java.util.Locale
 
 fun NavGraphBuilder.addHomeGraph(
     onSnackSelected: (Long, NavBackStackEntry) -> Unit,
     onNavigateToRoute: (String) -> Unit,
+    snackDetailViewModel: SnackDetailViewModel,
     modifier: Modifier = Modifier
 ) {
     composable(HomeSections.FEED.route) { from ->
-        Feed(onSnackClick = { id -> onSnackSelected(id, from) }, onNavigateToRoute, modifier)
+        Feed(onSnackClick = { id -> onSnackSelected(id, from) }, onNavigateToRoute, modifier, snackDetailViewModel)
     }
     composable(HomeSections.SEARCH.route) { from ->
         Search(onSnackClick = { id -> onSnackSelected(id, from) }, onNavigateToRoute, modifier)

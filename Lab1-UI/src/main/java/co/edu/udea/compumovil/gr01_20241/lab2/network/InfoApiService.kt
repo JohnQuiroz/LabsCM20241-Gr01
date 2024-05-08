@@ -1,9 +1,11 @@
 package co.edu.udea.compumovil.gr01_20241.lab2.network
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import javax.net.ssl.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
@@ -29,7 +31,7 @@ fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
 }
 
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
     .client(
         getUnsafeOkHttpClient().build()
         )
@@ -38,7 +40,7 @@ private val retrofit = Retrofit.Builder()
 
 interface InfoApiService {
     @GET("detail")
-    suspend fun getDetail(): String
+    suspend fun getDetail(): Info
 }
 
 object InfoApi{

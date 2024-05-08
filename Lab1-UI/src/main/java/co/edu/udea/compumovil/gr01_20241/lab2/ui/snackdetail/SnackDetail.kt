@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.model.Snack
 import co.edu.udea.compumovil.gr01_20241.lab2.model.SnackCollection
@@ -94,7 +95,8 @@ private val HzPadding = Modifier.padding(horizontal = 24.dp)
 @Composable
 fun SnackDetail(
     snackId: Long,
-    upPress: () -> Unit
+    upPress: () -> Unit,
+    snackDetailViewModel: SnackDetailViewModel
 ) {
     val snack = remember(snackId) { SnackRepo.getSnack(snackId) }
     val related = remember(snackId) { SnackRepo.getRelated(snackId) }
@@ -102,7 +104,7 @@ fun SnackDetail(
     Box(Modifier.fillMaxSize()) {
         val scroll = rememberScrollState(0)
         Header()
-        Body(related, scroll)
+        Body(related, scroll, snackDetailViewModel)
         Title(snack) { scroll.value }
         Image(snack.imageUrl) { scroll.value }
         Up(upPress)
@@ -144,7 +146,8 @@ private fun Up(upPress: () -> Unit) {
 @Composable
 private fun Body(
     related: List<SnackCollection>,
-    scroll: ScrollState
+    scroll: ScrollState,
+    snackDetailViewModel: SnackDetailViewModel
 ) {
     Column {
         Spacer(
@@ -172,7 +175,7 @@ private fun Body(
                     Spacer(Modifier.height(16.dp))
                     var seeMore by remember { mutableStateOf(true) }
                     Text(
-                        text = stringResource(R.string.detail_placeholder),
+                        text = snackDetailViewModel.details,//stringResource(R.string.detail_placeholder),
                         style = MaterialTheme.typography.body1,
                         color = JetsnackTheme.colors.textHelp,
                         maxLines = if (seeMore) 5 else Int.MAX_VALUE,
@@ -206,7 +209,7 @@ private fun Body(
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        text = stringResource(R.string.ingredients_list),
+                        text = snackDetailViewModel.ingredients,//stringResource(R.string.ingredients_list),
                         style = MaterialTheme.typography.body1,
                         color = JetsnackTheme.colors.textHelp,
                         modifier = HzPadding
@@ -380,7 +383,8 @@ private fun SnackDetailPreview() {
     JetsnackTheme {
         SnackDetail(
             snackId = 1L,
-            upPress = { }
+            upPress = { },
+            viewModel()
         )
     }
 }
