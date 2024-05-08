@@ -17,6 +17,7 @@
 package co.edu.udea.compumovil.gr01_20241.lab2.ui
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -29,10 +30,12 @@ import co.edu.udea.compumovil.gr01_20241.lab2.ui.home.addHomeGraph
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.navigation.MainDestinations
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.navigation.rememberJetsnackNavController
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.snackdetail.SnackDetail
+import co.edu.udea.compumovil.gr01_20241.lab2.ui.snackdetail.SnackDetailViewModel
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.theme.JetsnackTheme
 
 @Composable
 fun JetsnackApp() {
+    val snackDetailViewModel: SnackDetailViewModel = viewModel()
     JetsnackTheme {
         val jetsnackNavController = rememberJetsnackNavController()
         NavHost(
@@ -42,7 +45,8 @@ fun JetsnackApp() {
             jetsnackNavGraph(
                 onSnackSelected = jetsnackNavController::navigateToSnackDetail,
                 upPress = jetsnackNavController::upPress,
-                onNavigateToRoute = jetsnackNavController::navigateToBottomBarRoute
+                onNavigateToRoute = jetsnackNavController::navigateToBottomBarRoute,
+                snackDetailViewModel = snackDetailViewModel
             )
         }
     }
@@ -51,13 +55,14 @@ fun JetsnackApp() {
 private fun NavGraphBuilder.jetsnackNavGraph(
     onSnackSelected: (Long, NavBackStackEntry) -> Unit,
     upPress: () -> Unit,
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    snackDetailViewModel: SnackDetailViewModel
 ) {
     navigation(
         route = MainDestinations.HOME_ROUTE,
         startDestination = HomeSections.FEED.route
     ) {
-        addHomeGraph(onSnackSelected, onNavigateToRoute)
+        addHomeGraph(onSnackSelected, onNavigateToRoute, snackDetailViewModel)
     }
     composable(
         "${MainDestinations.SNACK_DETAIL_ROUTE}/{${MainDestinations.SNACK_ID_KEY}}",
@@ -65,6 +70,6 @@ private fun NavGraphBuilder.jetsnackNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val snackId = arguments.getLong(MainDestinations.SNACK_ID_KEY)
-        SnackDetail(snackId, upPress)
+        SnackDetail(snackId, upPress, snackDetailViewModel)
     }
 }

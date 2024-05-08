@@ -1,20 +1,26 @@
 package co.edu.udea.compumovil.gr01_20241.lab2.ui.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.snackdetail.SnackDetailViewModel
+import kotlinx.coroutines.withContext
 
 class InfoWorker(ctx: Context, params: WorkerParameters): CoroutineWorker(ctx, params) {
 
     override suspend fun doWork(): Result {
-        snackDetailViewModel.updateDetails("Mensaje")
-        val msg = "Mensaje"//snackDetailViewModel.infoUiState
         makeStatusNotification(
-            snackDetailViewModel.details,
+            "Getting information from de API",
             applicationContext
         )
-        TODO("Not yet implemented")
+        return try {
+            snackDetailViewModel.getInfo()
+            Result.success()
+        } catch (e: Exception) {
+            Log.e("InfoWorker", "Error en la carga de información")
+            Result.failure()
+        }
     }
 
     companion object {

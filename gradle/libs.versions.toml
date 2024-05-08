@@ -57,6 +57,9 @@ retrofit = "2.11.0"
 converterScalars = "2.11.0"
 okhttpVersion = "5.0.0-alpha.14"
 loggingInterceptor = "5.0.0-alpha.14"
+orgJetbrainsKotlinPluginSerializationGradlePlugin = "2.0.0-RC2"
+retrofit2KotlinxSerializationConverter = "1.0.0"
+kotlinxSerializationJson = "1.6.3"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
@@ -140,6 +143,9 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "converterScalars" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttpVersion" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
+org-jetbrains-kotlin-plugin-serialization-gradle-plugin = { group = "org.jetbrains.kotlin.plugin.serialization", name = "org.jetbrains.kotlin.plugin.serialization.gradle.plugin", version.ref = "orgJetbrainsKotlinPluginSerializationGradlePlugin" }
+retrofit2-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

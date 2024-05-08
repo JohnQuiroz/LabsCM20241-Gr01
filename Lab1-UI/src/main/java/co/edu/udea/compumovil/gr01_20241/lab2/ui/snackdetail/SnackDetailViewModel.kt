@@ -11,10 +11,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.IOException
+
+sealed interface SnackUiState {
+    data class Success(val state: String) : SnackUiState
+    object Error : SnackUiState
+    object Loading : SnackUiState
+}
 
 class SnackDetailViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(SnackDetailUIState())
     val uiState: StateFlow<SnackDetailUIState> = _uiState.asStateFlow()
+
     var details by mutableStateOf("")
         private set
 
@@ -22,19 +30,36 @@ class SnackDetailViewModel: ViewModel() {
         details = entered
     }
 
-    var infoUiState: String by mutableStateOf("")
+    var ingredients by mutableStateOf("")
         private set
 
-    init {
-        getInfo()
+    fun updateIngredients(entered: String) {
+        ingredients = entered
     }
 
-    private fun getInfo() {
-        infoUiState = "Set the Mars API status response here!"
-        Log.i("SnackDetailViewModel", infoUiState)
+    var infoUiState: SnackUiState by mutableStateOf(SnackUiState.Loading)
+        private set
+
+    /*init {
+        getInfo()
+    }*/
+
+    fun getInfo() {
+        /*infoUiState = "Set the Mars API status response here!"
+        Log.i("SnackDetailViewModel", infoUiState)*/
         viewModelScope.launch {
-            val listResult = InfoApi.retrofitService.getDetail()
+            infoUiState = try {
+                val listResult = InfoApi.retrofitService.getDetail()
+                Log.i("SnackDetailViewModel", listResult.detailPlaceholder)
+                updateDetails(listResult.detailPlaceholder)
+                updateIngredients(listResult.ingredientsList)
+                SnackUiState.Success("SUCCESS")
+            } catch (e: IOException) {
+                SnackUiState.Error
+            }
+            /*val listResult = InfoApi.retrofitService.getDetail()
             infoUiState = listResult
+            Log.i("SnackDetailViewModel", infoUiState)*/
         }
     }
 }
