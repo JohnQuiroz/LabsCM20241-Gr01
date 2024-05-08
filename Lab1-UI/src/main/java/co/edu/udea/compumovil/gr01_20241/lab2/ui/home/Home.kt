@@ -16,6 +16,7 @@
 
 package co.edu.udea.compumovil.gr01_20241.lab2.ui.home
 
+import android.app.Activity
 import androidx.annotation.FloatRange
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
@@ -83,18 +84,52 @@ fun NavGraphBuilder.addHomeGraph(
     modifier: Modifier = Modifier
 ) {
     composable(HomeSections.FEED.route) { from ->
-        Feed(onSnackClick = { id -> onSnackSelected(id, from) }, onNavigateToRoute, modifier, snackDetailViewModel)
+        Feed(
+            onSnackClick = { id -> onSnackSelected(id, from) },
+            onNavigateToRoute = onNavigateToRoute,
+            modifier = modifier,
+            snackDetailViewModel = snackDetailViewModel
+        )
     }
     composable(HomeSections.SEARCH.route) { from ->
-        Search(onSnackClick = { id -> onSnackSelected(id, from) }, onNavigateToRoute, modifier)
+        Search(
+            onSnackClick = { id -> onSnackSelected(id, from) },
+            onNavigateToRoute = onNavigateToRoute,
+            modifier = modifier
+        )
     }
     composable(HomeSections.CART.route) { from ->
-        Cart(onSnackClick = { id -> onSnackSelected(id, from) }, onNavigateToRoute, modifier)
+        Cart(
+            onSnackClick = { id -> onSnackSelected(id, from) },
+            onNavigateToRoute = onNavigateToRoute,
+            modifier = modifier
+        )
     }
     composable(HomeSections.PROFILE.route) {
-        Profile(onNavigateToRoute, modifier)
+        Profile(
+            name = null,
+            age = null,
+            weight = null,
+            email = null,
+            onSignInWithGoogle = {
+                // Aquí deberías llamar a la función o método que inicia el proceso de autenticación con Google
+                // Por ejemplo, en Android con Firebase Authentication:
+                val googleSignInClient = null
+                val signInIntent = googleSignInClient.signInIntent
+                val RC_SIGN_IN = null
+                RC_SIGN_IN?.let { it1 -> startActivityForResult(signInIntent as Activity, it1) }
+            },
+            onNavigateToRoute = onNavigateToRoute,
+            modifier = modifier
+        )
     }
+
 }
+
+fun startActivityForResult(activity: Activity, it1: Nothing) {
+    TODO("Not yet implemented")
+}
+
 
 enum class HomeSections(
     @StringRes val title: Int,
@@ -355,6 +390,10 @@ private fun JetsnackBottomNavIndicator(
     )
 }
 
+private val Nothing?.signInIntent: Any
+    get() {
+        TODO("Not yet implemented")
+    }
 private val TextIconSpacing = 2.dp
 private val BottomNavHeight = 56.dp
 private val BottomNavLabelTransformOrigin = TransformOrigin(0f, 0.5f)

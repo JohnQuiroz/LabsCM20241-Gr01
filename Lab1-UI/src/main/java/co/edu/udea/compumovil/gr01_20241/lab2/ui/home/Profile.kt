@@ -16,34 +16,85 @@
 
 package co.edu.udea.compumovil.gr01_20241.lab2.ui.home
 
-import android.content.res.Configuration
-import androidx.compose.foundation.Image
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import co.edu.udea.compumovil.gr01_20241.lab2.R
 import co.edu.udea.compumovil.gr01_20241.lab2.ui.components.JetsnackScaffold
-import co.edu.udea.compumovil.gr01_20241.lab2.ui.theme.JetsnackTheme
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+
 
 @Composable
 fun Profile(
+    name: String?,
+    age: Int?,
+    weight: Float?,
+    email: String?,
+    onSignInWithGoogle: (String) -> Unit, // Update parameter type to handle name
     onNavigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val auth = FirebaseAuth.getInstance()
+
+    // Function to handle Google Sign-In result
+    val handleGoogleSignInResult = remember {
+        { task: Intent ->
+            try {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(task)
+                val credential = GoogleAuthProvider.getCredential(account.result.idToken, null)
+                auth.signInWithCredential(credential)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val firebaseUser = auth.currentUser
+                            // Extract user information (assuming name is available)
+                            val userName = firebaseUser?.displayName ?: ""
+                            onSignInWithGoogle(userName) // Pass name to callback
+                        }
+                    }
+            } catch (e: ApiException) {
+                // Handle sign-in error
+            }
+        }
+    }
+
+    val signInLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
+        // Handle sign-in activity result here
+        if (result.resultCode == Activity.RESULT_OK) {
+            // User successfully signed in
+            result.data ?: return@rememberLauncherForActivityResult // Handle null result
+            // Extract information from data (e.g., using Intent)
+        } else {
+            // Handle sign-in error (optional)
+        }
+    }
+
+
+
+
+    // Launch sign-in activity on button click
+    LaunchedEffect(Unit) {
+        if (name == null) {
+            signInLauncher.launch(Intent(context, GoogleSignIn::class.java))
+        }
+    }
+
     JetsnackScaffold(
         bottomBar = {
             JetsnackBottomBar(
@@ -59,37 +110,21 @@ fun Profile(
             modifier = Modifier
                 .fillMaxSize()
                 .wrapContentSize()
-                .padding(24.dp)
+                .padding(46.dp)
                 .padding(paddingValues)
         ) {
-            Image(
-                painterResource(R.drawable.empty_state_search),
-                contentDescription = null
-            )
-            Spacer(Modifier.height(24.dp))
-            Text(
-                text = stringResource(R.string.work_in_progress),
-                style = MaterialTheme.typography.subtitle1,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.grab_beverage),
-                style = MaterialTheme.typography.body2,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (name != null && age != null && weight != null && email != null) {
+                // Mostrar la información de perfil si está disponible
+                Text(text = "Name: $name")
+                Text(text = "Age: $age")
+                Text(text = "Weight: $weight kg")
+                Text(text = "Email: $email")
+            } else {
+                
+                Button(onClick = { signInLauncher.launch(Intent(context, GoogleSignIn::class.java)) }) {
+                    Text(text = "Sign In with Google")
+                }
+            }
         }
-    }
-}
-
-@Preview("default")
-@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview("large font", fontScale = 2f)
-@Composable
-fun ProfilePreview() {
-    JetsnackTheme {
-        Profile(onNavigateToRoute = { })
     }
 }
